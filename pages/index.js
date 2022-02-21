@@ -5,7 +5,6 @@ import styles from "../styles/Home.module.css";
 
 export default function Home() {
 	const fetchProductHuntAPI = async () => {
-		console.log(process.env.NEXT_PUBLIC_PRODUCT_HUNT_ACCESS_TOKEN);
 		const options = {
 			headers: {
 				Authorization: `BEARER ${process.env.NEXT_PUBLIC_PRODUCT_HUNT_ACCESS_TOKEN}`,
@@ -37,6 +36,7 @@ export default function Home() {
                 }`,
 			}),
 		};
+
 		const data = fetch(
 			"https://api.producthunt.com/v2/api/graphql",
 			options
