@@ -71,32 +71,37 @@ export default function Home() {
 			</Head>
 
 			<main className={styles.main}>
-				<h1 className="text-6xl font-bold">Lai Jian Shin's</h1>
-				<h1 className="text-5xl font-medium"> GraphQL</h1>
+				<h1 className="text-6xl font-bold text-center">Lai Jian Shin's</h1>
+				<h1 className="text-5xl font-medium text-center"> GraphQL</h1>
 
-				<p className={styles.description}>Welcome welcome</p>
+				<p className={styles.description}>
+					Made exclusively with NextJS and Tailwind CSS
+				</p>
 
 				<div className="container mx-auto">
-					<div className="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4">
+					<div className="grid gap-y-8 grid-cols-1 md:grid-cols-3 2xl:grid-cols-4">
 						{queryResult &&
 							queryResult.map((item) => (
-								<div>
-									<div className="mx-4 my-4 px-8 py-8 h-5/6 text-left rounded-lg transition-all border-x border-y border-gray-100 text-ellipsis overflow-hidden">
+								<div
+									key={item.node.id}
+									className="hover:shadow-lg m-4 h-full text-left rounded-lg transition-all border-x border-y border-gray-100 text-ellipsis overflow-hidden"
+								>
+									<div>
+										<Image
+											src={item.node.thumbnail.url}
+											layout="responsive"
+											width="50px"
+											height="50px"
+										></Image>
+									</div>
+									<div className="m-4">
 										<h2 className="text-3xl font-bold"> {item.node.name} </h2>
 										<p className="text-base font-light py-5">
-											{" "}
 											{item.node.tagline}
 										</p>
 									</div>
 								</div>
 							))}
-						{/* <div className="mx-4 my-4 xl:w-80 px-8 py-10 text-left rounded-lg transition-all border-x border-y border-gray-100 text-ellipsis overflow-hidden">
-							<h2 className="text-3xl font-bold"> TITLE IS LIT </h2>
-							<p className="text-base font-light">
-								{" "}
-								Catchy tagline yeaaisjhfuahsifjhsaifhasfass
-							</p>
-						</div> */}
 					</div>
 				</div>
 			</main>
