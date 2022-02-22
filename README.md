@@ -12,23 +12,47 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+3 components were made:
+• Card
+• Dropdown
+• JellyBean (which are just those little pill elements)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Tailwind CSS was extensively used. The following commands were used in setting the initial setting for usage of the plugin:
+```npm install tailwindcss postcss-cli autoprefixer -D```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+To create the tailwind.config.js file:
+```npx tailwind init --full```
 
-## Learn More
+The following are added into the tailwind.config.js file to enable usage of tailwind css:
+```
+content: [
+  "./pages/**/*.{js,ts,jsx,tsx}",
+  "./components/**/*.{js,ts,jsx,tsx}",
+],
+```
 
-To learn more about Next.js, take a look at the following resources:
+To get PostCSS working:
+```touch postcss.config.js```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Inside:
+```
+module.exports = {
+  plugins: ["tailwindcss", "./tailwind.config.js", "autoprefixer"],
+};
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+... and finally the last step, in `styles/globals.css` add these lines anywhere:
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
-## Deploy on Vercel
+Save it, and rerun ```npm run dev```. Happy Tailwind-ing.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Future improvement: 
+• Search functionality
+• Optimization possibility with either useMemo or useCallback
+• Redux could've been used as a centralized storage for all the states being used (instead of using props resulting in props drilling)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Thank you visiting this repository. Have a great day!
