@@ -1,11 +1,12 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
+import Card from "../components/Card";
 
 export default function Home() {
 	const [queryResult, setQueryResult] = useState();
-	// name, description, votesCount, thumbnail, reviewsRating
+	const [error, setError] = useState();
+
 	const fetchProductHuntAPI = async () => {
 		const response = await fetch("https://api.producthunt.com/v2/api/graphql", {
 			method: "POST",
@@ -50,12 +51,13 @@ export default function Home() {
 			})
 		);
 		const data = await response.json();
-		console.log(data);
-		const contents = data.data.posts.edges;
-		// item.node
 
-		setQueryResult(contents);
-		console.log(queryResult);
+		try {
+			const contents = data.data.posts.edges;
+			setQueryResult(contents);
+		} catch (e) {
+			setError(data.errors[0]);
+		}
 	};
 
 	useEffect(() => {
@@ -79,29 +81,33 @@ export default function Home() {
 				</p>
 
 				<div className="container mx-auto">
-					<div className="grid gap-y-8 grid-cols-1 md:grid-cols-3 2xl:grid-cols-4">
+					<div className="grid gap-y-1 grid-cols-1 md:grid-cols-3 2xl:grid-cols-4">
 						{queryResult &&
+							!error &&
 							queryResult.map((item) => (
-								<div
+								<Card
 									key={item.node.id}
-									className="hover:shadow-lg m-4 h-full text-left rounded-lg transition-all border-x border-y border-gray-100 text-ellipsis overflow-hidden"
-								>
-									<div>
-										<Image
-											src={item.node.thumbnail.url}
-											layout="responsive"
-											width="50px"
-											height="50px"
-										></Image>
-									</div>
-									<div className="m-4">
-										<h2 className="text-3xl font-bold"> {item.node.name} </h2>
-										<p className="text-base font-light py-5">
-											{item.node.tagline}
-										</p>
-									</div>
-								</div>
+									ID={item.node.id}
+									thumbURL={item.node.thumbnail.url}
+									name={item.node.name}
+									tagline={item.node.tagline}
+									topics={item.node.topics.edges}
+									link={item.node.website}
+								></Card>
 							))}
+					</div>
+					<div>
+						{!queryResult && !error && (
+							<p className="flex justify-center w-full text-center m-auto text-4xl text-blue-600">
+								Loading...
+							</p>
+						)}
+						{error && (
+							<p className="flex justify-center w-full text-center m-auto text-4xl text-bold text-red-500">
+								API Error: {error.error}. <br></br>
+								Please wait {error.details.reset_in} seconds
+							</p>
+						)}
 					</div>
 				</div>
 			</main>
